@@ -1,0 +1,11 @@
+[
+{
+  "pk": 1, 
+  "model": "tastypie.apikey", 
+  "fields": {
+    "user": 1, 
+    "key": "mysuperstrongkey", 
+    "created": "2014-01-04T01:24:14Z"
+  }
+}
+]

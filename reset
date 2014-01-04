@@ -17,5 +17,6 @@ python manage.py createsuperuser --email="kevin@just-digital.net" --username="ke
 
 # Default fixtures
 python manage.py loaddata profiles.json
+python manage.py loaddata apikeys.json
 
 
