@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# This script is used for convenience when resetting the database back to a known state for 
+# testing purpooses.  Run this script ONLY when the virtualenv is currently activated
+
+if [ -z "$VIRTUAL_ENV" ]; then
+    echo "Need to activate VIRTUALENV"
+    exit 1
+fi
+
+# Delete the datbase
+rm db.sqlite3
+
+# Make a new database and fill it with data (via fixtures)
+python manage.py syncdb --noinput
+python manage.py createsuperuser --email="kevin@just-digital.net" --username="kevins"
+
+# Default fixtures
+python manage.py loaddata profiles.json
+
+
