@@ -1,0 +1,19 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Simple Time</title>
+        <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container" ng-app="simpleTime">
+            <h1>Simple Time <small>A time management app</small></h1>
+            <ng-view></ng-view>
+        </div>
+        <script src="{% static "js/angular.min.js" %}"></script>
+        <script src="{% static "js/angular-route.js" %}"></script>
+        <script src="{% static "js/ui-bootstrap-custom-tpls-0.6.0.js" %}"></script>
+        <script src="{% static "js/app.js" %}"></script>
+    </body>
+</html>
+

@@ -1,0 +1,17 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Duration</th>
+        </tr>
+
+    </thead>
+    <tr ng-repeat="item in items">
+        <td>{{ item.title }}</td>
+        <td>{{ item.duration }}</td>
+        <td><a href="#/item/{{ item.id }}/" class="btn btn-primary btn-sml">Edit</a>
+            <a ng-click="deleteItem(item.id)" class="btn btn-danger btn-sml">Delete</a></td>
+    </tr>
+</table>
+
+<a class="btn btn-primary" href="#/item/new/">Create a new item</a>

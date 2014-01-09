@@ -1,0 +1,14 @@
+<form role="form" ng-controller="ItemDetailCtrl" ng-submit="createItem()">
+    {{ message }}
+    <div class="form-group">
+        <label for="title">Item title</label>
+        <input type="text" class="form-control" id="title" ng-model="item.title" placeholder="Item title">
+    </div>
+    <div class="form-group">
+        <label for="duration">Duration</label>
+        <input type="text" class="form-control" id="duration" ng-model="item.duration" 
+         placeholder="How long did you work on this item for?">
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a class="btn btn-default" href="#/">Cancel</a>
+</form>
