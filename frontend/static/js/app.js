@@ -1,4 +1,5 @@
 var app = angular.module('simpleTime', ["ngRoute", "ui.bootstrap"]);
+var apiBase = '/api/v1/'
 
 // Handles routing
 app.config(function($routeProvider) {
@@ -14,15 +15,31 @@ app.config(function($routeProvider) {
         .when("/item/:id/delete/", {
             controller: "ItemDetailCtrl",
             templateUrl:"/static/partials/item_detail.html",
-            delete: true
+        })
+        .when("/login/", {
+            controller: "AuthenticationCtrl",
+            templateUrl:"/static/partials/login.html"
         })
         .otherwise({redirectTo: "/"})
-});
+})
+
+// Send all view requests to login if user is not authenticated
+app.run(function($rootScope, $location) {
+    // register listener to watch route changes
+    $rootScope.$on("$routeChangeStart", function(event, next, current) {
+        if ($rootScope.user == null) {
+            if (next.templateUrl != "/static/partials/login.html") {
+                $location.path( "/login" );
+            }
+        }
+    });
+ })
 
 // Service prives RESTful methods to backend
-app.service('ItemService', ['$http', function ($http) {
-    var urlBase = '/api/v1/item/';
-    $http.defaults.headers.common.Authorization = "ApiKey kevins:mysuperstrongkey";
+app.service('ItemService', ['$http', '$rootScope', function($http, $rootScope) {
+    var urlBase = apiBase + 'item/';
+    var auth_key = $rootScope.user.username + ":" + $rootScope.user.api_key
+    $http.defaults.headers.common.Authorization = "ApiKey " + auth_key;
 
     this.getItems = function() {
         return $http.get(urlBase);
@@ -30,18 +47,37 @@ app.service('ItemService', ['$http', function ($http) {
     this.getItem = function(id) {
         return $http.get(urlBase + id + "/");
     };
-    this.createItem = function(item) {
-        return $http.post(urlBase, item);
-    };
     this.saveItem = function(item) {
-        return $http.put("{0}{1}/".format(urlBase, id), item);
+        return $http.post(urlBase, item);
     };
     this.deleteItem = function(id) {
         return $http.delete(urlBase + id + "/");
     };
 }]);
 
-// Controller for list page
+// Controller for authentication
+function AuthenticationCtrl($scope, $rootScope , $http, $location) {
+    $scope.message = "Please login";
+    $scope.authenticate = function() {
+        $http.post(apiBase + "user/authenticate/", $scope.user)
+            .success(function(data) {
+                $rootScope.user = data
+                $location.path("/");
+            })
+            .error(function(data, status){
+                $scope.message = "Sorry, an error occurred."
+                if (status == 401) {
+                    if (data.message) {
+                        $scope.message = data.message;
+                    } else {
+                        $scope.message = "Sorry, we're unable to authenticate you";
+                    }
+                }
+            });
+    };
+}
+
+// Controller for item list page
 app.controller('ItemListCtrl', ['$scope', '$routeParams', 'ItemService',
     function($scope, $routeParams, ItemService) {
     $scope.items = getItems();
@@ -66,10 +102,9 @@ app.controller('ItemListCtrl', ['$scope', '$routeParams', 'ItemService',
     }
 }]);
 
-// Controller for detail page (create + modify)
+// Controller for item detail page (create + modify)
 app.controller('ItemDetailCtrl', ['$scope', '$routeParams', '$location', 'ItemService',
     function($scope, $routeParams, $location, ItemService) {
-    console.log($routeParams.delete);
     $scope.item = {};
     $scope.message = "";
     if ($routeParams.id && $routeParams.id != "new") {
@@ -81,11 +116,10 @@ app.controller('ItemDetailCtrl', ['$scope', '$routeParams', '$location', 'ItemSe
             });
     }
     // A a method to create a new entity
-    $scope.createItem = function() {
-        ItemService.createItem($scope.item)
+    $scope.saveItem = function() {
+        ItemService.saveItem($scope.item)
             .success(function() {
-                $scope.message = "New item has been successfully created";
-                $location.path("/route");
+                $location.path("/");
             })
             .error(function(items) {
                 $scope.message = "An error occurred while saving your item";
