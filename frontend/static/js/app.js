@@ -81,11 +81,14 @@ function AuthenticationCtrl($scope, $rootScope , $http, $location) {
 app.controller('ItemListCtrl', ['$scope', '$routeParams', 'ItemService',
     function($scope, $routeParams, ItemService) {
     $scope.items = getItems();
+    $scope.totals = {};
     function getItems() {
         var items = [];
         ItemService.getItems()
             .success(function(items) {
                 $scope.items = items.objects;
+                $scope.totals = {time: items.meta.total_time, 
+                    count: items.meta.total_count}
             });
         return items;
     }

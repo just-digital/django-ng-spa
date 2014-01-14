@@ -134,6 +134,14 @@ class ItemResource(BaseResource):
         """ All "list" methods must filter by this user only """
         return object_list.filter(user=request.user)
 
+    def alter_list_data_to_serialize(self, request, data):
+        """ Add total time to meta response """
+        total_time = 0;
+        for obj in data['objects']:
+            total_time += obj.obj.duration
+        data['meta']['total_time'] =  total_time
+        return data
+
     class Meta:
         list_allowed_methods = ["get", "post"]
         detail_allowed_methods = ['get', 'put', 'delete']

@@ -14,6 +14,11 @@
         <td width="130"><a href="#/item/{{ item.id }}/" class="btn btn-primary btn-sml">Edit</a>
             <a ng-click="deleteItem(item.id)" class="btn btn-danger btn-sml">Delete</a></td>
     </tr>
+    <tr>
+        <td><strong>Total Items:</strong> {{ totals.count }}</td>
+        <td colspan="3"><strong>Total Time:</strong> {{ totals.time }}</td>
+    </tr>
+
 </table>
 
 <a class="btn btn-primary" href="#/item/new/">Create a new item</a>
