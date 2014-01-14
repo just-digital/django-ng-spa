@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.conf.urls import url
-from tastypie import http
+from tastypie import http, fields
 from tastypie.resources import ModelResource
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import Authorization
@@ -124,6 +124,8 @@ class UserResource(BaseResource):
 
 class ItemResource(BaseResource):
     """ Expose the Item entities over REST, and provide a level of authorisation """
+    undertime = fields.BooleanField(attribute='undertime', readonly=True)
+
     def obj_create(self, bundle, **kwargs):
         """ Any "create" methods must use the session user always """
         return super(ItemResource, self).obj_create(bundle, user=bundle.request.user)

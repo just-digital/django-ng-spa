@@ -39,7 +39,7 @@ class Item(models.Model):
     """
     user = models.ForeignKey(User)
     title = models.CharField(max_length=255)
-    date = models.DateField(auto_now=True, db_index=True)
+    date = models.DateField(auto_now_add=True, db_index=True)
     duration = models.IntegerField(help_text="Amount of time spent in minutes "
                                              "on this item")
 
@@ -49,7 +49,5 @@ class Item(models.Model):
     @property
     def undertime(self):
         """ Returns True when the the current duration is shorter than preferred """
-        return self.duration < self.user.profile.preferred_hours
-
-
+        return self.duration < self.user.profile.hours
 
