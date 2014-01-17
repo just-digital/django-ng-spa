@@ -25,7 +25,7 @@ class UserResource(BaseResource):
         queryset = User.objects.all()
         fields = ['first_name', 'last_name', 'username']
         list_allowed_methods = [] # Disallow all batch requests
-        detail_allowed_methods = ['get', 'put', 'post']
+        detail_allowed_methods = ['put', 'post'] # Get get
         resource_name = 'user'
         authorization= Authorization()
 
@@ -147,7 +147,7 @@ class ItemResource(BaseResource):
         detail_allowed_methods = ['get', 'put', 'delete']
         queryset = Item.objects.all()
         resource_name = 'item'
-        authorization= Authorization()
+        authorization = Authorization()
         authentication = ApiKeyAuthentication()
         filtering = {'date': ['range']}
 

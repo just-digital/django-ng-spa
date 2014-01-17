@@ -102,13 +102,17 @@ app.controller('AuthenticationCtrl', ['$scope', '$rootScope', '$routeParams',
 
 // Controller for user detail page (register + modify)
 app.controller('UserDetailCtrl', ['$scope', '$rootScope', '$routeParams', '$location', 
-    'UserService', function($scope, $rootScope, $routeParams, $location, UserService) {
+    '$http', 'UserService', function($scope, $rootScope, $routeParams, $location, $http, 
+    UserService) {
     $scope.user = {};
     $scope.message = "";
     // Register a new user
     $scope.register = function() {
         UserService.register($scope.user)
             .success(function(data) {
+				// Set the user session to aviod having to login again.
+                var auth_key = data.username + ":" + data.api_key
+                $http.defaults.headers.common.Authorization = "ApiKey " + auth_key;
                 $rootScope.user = data; // Set the session user
                 $location.path("/");
             })
