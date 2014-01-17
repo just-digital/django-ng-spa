@@ -130,9 +130,9 @@ class ItemResource(BaseResource):
         """ Any "create" methods must use the session user always """
         return super(ItemResource, self).obj_create(bundle, user=bundle.request.user)
 
-    def apply_authorization_limits(self, request, object_list):
+    def authorized_read_list(self, object_list, bundle):
         """ All "list" methods must filter by this user only """
-        return object_list.filter(user=request.user)
+        return object_list.filter(user=bundle.request.user)
 
     def alter_list_data_to_serialize(self, request, data):
         """ Add total time to meta response """
@@ -149,4 +149,5 @@ class ItemResource(BaseResource):
         resource_name = 'item'
         authorization= Authorization()
         authentication = ApiKeyAuthentication()
+        filtering = {'date': ['range']}
 

@@ -13,7 +13,7 @@ rm db.sqlite3
 
 # Make a new database and fill it with data (via fixtures)
 python manage.py syncdb --noinput
-python manage.py createsuperuser --email="kevin@just-digital.net" --username="kevins"
+python manage.py createsuperuser --email="example@example.com" --username="kevins"
 
 # Default fixtures
 python manage.py loaddata profiles.json

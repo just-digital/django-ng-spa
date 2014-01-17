@@ -1,0 +1,26 @@
+<form role="form" ng-controller="UserDetailCtrl" ng-submit="register()">
+    {{ message }}
+    <div class="form-group">
+        <label for="fname">Username</label>
+        <input type="text" class="form-control" id="username" ng-model="user.username" placeholder="Username">
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" ng-model="user.password" placeholder="Enter a password">
+    </div>
+    <div class="form-group">
+        <label for="fname">First name</label>
+        <input type="text" class="form-control" id="fname" ng-model="user.first_name" placeholder="First name">
+    </div>
+    <div class="form-group">
+        <label for="lname">Last name</label>
+        <input type="text" class="form-control" id="lname" ng-model="user.last_name" placeholder="Last name">
+    </div>
+    <div class="form-group">
+        <label for="hours">Preferred amount of working hours</label>
+        <input type="text" class="form-control" id="hours" ng-model="item.hours" 
+         placeholder="How long did you work on this item for?">
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a class="btn btn-default" href="#/">Cancel</a>
+</form>

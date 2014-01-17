@@ -1,24 +1,32 @@
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Title</th>
-            <th colspan=2>Duration</th>
+<div ng-controller="ItemListCtrl">
+    <form role="form" ng-submit="getItems()" class="form-inline">
+        {{ message }}
+        <label class="control-label" for="date_from">Filter by date range: </label>
+        <input type="text" class="input-small" id="date_from" ng-model="dates.from">
+        <input type="text" class="input-small" id="date_to" ng-model="dates.to">
+        <button type="submit" class="btn">Filter</button>
+    </form>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Title</th>
+                <th colspan=2>Duration</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="item in items" ng-class="(item.undertime) ? 'warning' : 'success'">
+            <td>{{ item.date }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.duration }}</td>
+            <td width="130"><a href="#/item/{{ item.id }}/" class="btn btn-primary btn-sml">Edit</a>
+                <a ng-click="deleteItem(item.id)" class="btn btn-danger btn-sml">Delete</a></td>
         </tr>
+        <tr>
+            <td><strong>Total Items:</strong> {{ totals.count }}</td>
+            <td colspan="3"><strong>Total Time:</strong> {{ totals.time }}</td>
+        </tr>
+    </table>
+    <a class="btn btn-primary" href="#/item/new/">Create a new item</a>
+</div>
 
-    </thead>
-    <tr ng-repeat="item in items" ng-class="(item.undertime) ? 'warning' : 'success'">
-        <td>{{ item.date }}</td>
-        <td>{{ item.title }}</td>
-        <td>{{ item.duration }}</td>
-        <td width="130"><a href="#/item/{{ item.id }}/" class="btn btn-primary btn-sml">Edit</a>
-            <a ng-click="deleteItem(item.id)" class="btn btn-danger btn-sml">Delete</a></td>
-    </tr>
-    <tr>
-        <td><strong>Total Items:</strong> {{ totals.count }}</td>
-        <td colspan="3"><strong>Total Time:</strong> {{ totals.time }}</td>
-    </tr>
-
-</table>
-
-<a class="btn btn-primary" href="#/item/new/">Create a new item</a>

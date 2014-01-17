@@ -1,8 +1,13 @@
-<form ng-controller="AuthenticationCtrl" ng-submit="authenticate()">
+<form role="form" ng-controller="AuthenticationCtrl" ng-submit="authenticate()">
     <p>{{ message }}</p>
-    <label>Username</label> 
-    <input type="text" ng-model="user.username" placeholder="Username">
-    <label>Password</label> 
-    <input type="password" ng-model="user.password" placeholder="Password">
-    <button class="btn btn-primary">login</button>
+    <div class="form-group">
+        <label>Username</label>
+        <input type="text" class="form-control" ng-model="user.username" placeholder="Username">
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-control" ng-model="user.password" placeholder="Password">
+    </div>
+    <input type="submit" class="btn btn-primary" value="Login" />
+    <a class="btn btn-default" href="#/register/">Register</a>
 </form>
